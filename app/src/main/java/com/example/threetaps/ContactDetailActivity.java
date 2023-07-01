@@ -31,7 +31,7 @@ public class ContactDetailActivity extends AppCompatActivity {
         // initializing our views.
         // bind each view with id
         nameTV = findViewById(R.id.TVName);
-        contactIV = findViewById(R.id.ContactItem_IV);
+        contactIV = findViewById(R.id.IVAccount);
         contactTV = findViewById(R.id.TVPhone);
         callIV = findViewById(R.id.IVCall);
         // set each text view
