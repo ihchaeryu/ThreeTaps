@@ -4,18 +4,26 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_MEDIA_IMAGES;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +50,8 @@ public class Tab1 extends Fragment {
     private RecyclerView contactRV;
     private ContactRVAdapter contactRVAdapter;
     private ProgressBar loadingPB;
+    // activity result launcher to solve deprecation
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -59,6 +69,15 @@ public class Tab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // activity result launcher to solve deprecation
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // Handle the result here
+                    Intent data = result.getData();
+                    // Process the data from the result intent
+                }
+            });
 
         return inflater.inflate(R.layout.fragment_tab1, container, false);
     }
@@ -117,7 +136,7 @@ public class Tab1 extends Fragment {
                         if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             // do your work now
                             getContacts();
-                            Toast.makeText(mainActivity, "All the permissions are granted..", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mainActivity, "All the permissions are granted.", Toast.LENGTH_SHORT).show();
                         }
                         // check for permanent denial of any permission
                         if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
@@ -145,10 +164,6 @@ public class Tab1 extends Fragment {
                 // below line is use to run the permissions
                 // on same thread and to check the permissions
                 .onSameThread().check();
-    }
-
-    private void showSettingsDialog() {
-
     }
 
     @SuppressLint("Range")
@@ -203,6 +218,48 @@ public class Tab1 extends Fragment {
         // on below line we are hiding our progress bar and notifying our adapter class.
         loadingPB.setVisibility(View.GONE);
         contactRVAdapter.notifyDataSetChanged();
+    }
+
+    private void showSettingsDialog() {
+        // dialog message for when a permission is permanently denied
+
+        // we are displaying an alert dialog for permissions
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+
+        // below line is the title
+        // for our alert dialog.
+        builder.setTitle("Need Permissions");
+
+        // below line is our message for our dialog
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
+        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // this method is called on click on positive
+                // button and on clicking shit button we
+                // are redirecting our user from our app to the
+                // settings page of our app.
+                dialog.cancel();
+                // below is the intent from which we
+                // are redirecting our user.
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", mainActivity.getPackageName(), null);
+                intent.setData(uri);
+//                startActivityForResult(intent, 101);
+                launcher.launch(intent);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // this method is called when
+                // user click on negative button.
+                dialog.cancel();
+            }
+        });
+        // below line is used
+        // to display our dialog
+        builder.show();
     }
 
 }
