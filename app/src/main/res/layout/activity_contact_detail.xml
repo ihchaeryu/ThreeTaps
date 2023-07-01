@@ -1,9 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ContactDetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--image view for contact / for now, put ic_launcher instead of ic_account-->
+    <ImageView
+        android:id="@+id/IVAccount"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/purple"
+        android:padding="50dp"
+        android:src="@drawable/ic_account"
+        app:tint="@color/white" />
+
+    <!--text view for displaying user name-->
+    <TextView
+        android:id="@+id/TVName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IVAccount"
+        android:background="@color/purple"
+        android:padding="10dp"
+        android:text="Name"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <!--card view for displaying user contact-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TVName"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="4dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--image view for making a call / for now, put ic_launcher instead of ic_account -->
+            <ImageView
+                android:id="@+id/IVCall"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_call"
+                app:tint="@color/dark_purple" />
+
+            <!--text view for displaying user contact-->
+            <TextView
+                android:id="@+id/TVPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/IVCall"
+                android:layout_toRightOf="@id/IVCall"
+                android:text="Phone" />
+            <!-- android:layout_toStartOf="@id/idIVMessage" -->
+
+<!--            &lt;!&ndash;image view for displaying message icon&ndash;&gt;-->
+<!--            <ImageView-->
+<!--                android:id="@+id/idIVMessage"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:padding="4dp"-->
+<!--                android:src="@drawable/ic_account"-->
+<!--                app:tint="@color/purple_700" />-->
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
