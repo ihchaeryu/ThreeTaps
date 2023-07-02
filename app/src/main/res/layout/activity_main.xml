@@ -13,11 +13,11 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabItem
-            android:text="Tab 1"
+            android:text="Contacts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.google.android.material.tabs.TabItem
-            android:text="Tab 2"
+            android:text="Photos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.google.android.material.tabs.TabItem
