@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ContactItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,8 +10,8 @@
     <!--image view for displaying the first letter of contact-->
     <ImageView
         android:id="@+id/ContactItem_IV"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_margin="8dp"
         android:padding="3dp"
         android:src="@mipmap/ic_launcher" />
@@ -27,5 +28,15 @@
         android:layout_toRightOf="@id/ContactItem_IV"
         android:text="Contact Name"
         android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ContactItem_IV"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="?android:attr/listDivider" />
+
 
 </RelativeLayout>
