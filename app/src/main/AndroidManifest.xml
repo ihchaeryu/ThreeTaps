@@ -7,7 +7,8 @@
         android:required="false" /> <!-- permissions to read contacts -->
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- permissions to make a call -->
     <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- permissions to read mp3 files -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- up to android 12 (api31) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/> <!-- from android 13 (api33) -->
 
     <application
         android:allowBackup="true"

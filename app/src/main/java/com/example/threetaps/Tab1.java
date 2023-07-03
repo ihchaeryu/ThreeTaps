@@ -1,5 +1,6 @@
 package com.example.threetaps;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -107,13 +109,26 @@ public class Tab1 extends Fragment {
     }
 
     private void requestPermissions() {
+        // permissions to ask based on sdk version
+        ArrayList<String> permissions = new ArrayList<>();
+        permissions.add(android.Manifest.permission.READ_CONTACTS);
+        permissions.add(android.Manifest.permission.CALL_PHONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.READ_MEDIA_AUDIO);
+        } else {
+            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
         // below line is use to request
         // permission in the current activity.
-        Dexter.withContext(mainActivity)
+        Dexter.withContext(mainActivity.getApplicationContext())
                 // below line is use to request the number of
                 // permissions which are required in our app.
-                .withPermissions(android.Manifest.permission.READ_CONTACTS,
-                        android.Manifest.permission.CALL_PHONE)
+                .withPermissions(permissions)
+//                .withPermissions(android.Manifest.permission.READ_CONTACTS,
+//                        android.Manifest.permission.CALL_PHONE,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                        Manifest.permission.READ_MEDIA_AUDIO)
                 // after adding permissions we are
                 // calling and with listener method.
                 .withListener(new MultiplePermissionsListener() {
