@@ -85,8 +85,8 @@ public class Tab3 extends Fragment {
         // calling method to prepare our recycler view.
         prepareMusicRV();
 
-        // calling a method to request permissions.
-        requestPermissions();
+        // get music; permissions were requested together in tab1
+        getMusic();
     }
 
     private void prepareMusicRV() {
@@ -98,91 +98,9 @@ public class Tab3 extends Fragment {
         musicRV.setAdapter(musicRVAdapter);
     }
 
-    private void requestPermissions() {
-        // request permission via Dexter
-        Dexter.withContext(mainActivity)
-                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        // this method is called when all permissions are granted
-                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                            // get all music list
-                            getMusic();
-                            Toast.makeText(mainActivity, "All the permissions are granted.", Toast.LENGTH_SHORT).show();
-                        }
-                        // check for permanent denial of any permission
-                        if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-                            // permission is denied permanently,
-                            // we will show user a dialog message.
-                            showSettingsDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                        // this method is called when user grants some
-                        // permission and denies some of them.
-                        permissionToken.continuePermissionRequest();
-                    }
-                }).withErrorListener(new PermissionRequestErrorListener() {
-                    // this method is use to handle error
-                    // in runtime permissions
-                    @Override
-                    public void onError(DexterError error) {
-                        // we are displaying a toast message for error message.
-                        Toast.makeText(mainActivity, "Error occurred! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                // below line is use to run the permissions
-                // on same thread and to check the permissions
-                .onSameThread().check();
-    }
-
     private void getMusic() {
         // this method is doing the work! get the music data from user's device
 
     }
 
-    private void showSettingsDialog() {
-        // dialog message for when a permission is permanently denied
-
-        // we are displaying an alert dialog for permissions
-        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
-
-        // below line is the title
-        // for our alert dialog.
-        builder.setTitle("Need Permissions");
-
-        // below line is our message for our dialog
-        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
-        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // this method is called on click on positive
-                // button and on clicking shit button we
-                // are redirecting our user from our app to the
-                // settings page of our app.
-                dialog.cancel();
-                // below is the intent from which we
-                // are redirecting our user.
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", mainActivity.getPackageName(), null);
-                intent.setData(uri);
-//                startActivityForResult(intent, 101);
-                launcher.launch(intent);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // this method is called when
-                // user click on negative button.
-                dialog.cancel();
-            }
-        });
-        // below line is used
-        // to display our dialog
-        builder.show();
-    }
 }
