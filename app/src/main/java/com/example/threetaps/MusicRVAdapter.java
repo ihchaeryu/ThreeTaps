@@ -3,6 +3,7 @@ package com.example.threetaps;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,10 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MusicRVAdapter.ViewHolder holder, int position) {
-        MusicModal modal = musicModalArrayList.get(position);
+        int pos = position;
+        MusicModal modal = musicModalArrayList.get(pos);
+        // get uri
+        Uri contentUri = modal.getContentUri();
         // setting data for text views
         holder.musicTV.setText(modal.getFileName());
         holder.artistTV.setText(modal.getArtistName());
@@ -47,7 +51,10 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
             public void onClick(View v) {
                 // on below line we are opening a new activity and passing data to it.
                 Intent i = new Intent(context, MusicDetailActivity.class);
-                i.putExtra("name", modal.getFileName());
+                i.putExtra("list", musicModalArrayList);
+                i.putExtra("pos", pos);
+                i.putExtra("uri", contentUri.toString());
+                i.putExtra("title", modal.getFileName());
                 i.putExtra("artist", modal.getArtistName());
                 // on below line we are starting a new activity,
                 context.startActivity(i);

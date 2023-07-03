@@ -3,6 +3,7 @@ package com.example.threetaps;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -107,9 +108,10 @@ public class Tab3 extends Fragment {
     private void getMusic() {
         // this method is doing the work! get the music data from user's device
         // some string variables
-        String musicID = "";
+        Long musicID;
         String titleName = "";
         String artistName = "";
+        Uri contentUri;
 
         // on below line we are calling our content resolver for getting music
         Uri collection;
@@ -126,7 +128,7 @@ public class Tab3 extends Fragment {
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.IS_MUSIC
         };
-        String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC";      // sort order sql
+        String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";      // sort order sql
         Cursor cursor = mainActivity.getContentResolver()
                 .query(collection,
                         projection,
@@ -142,17 +144,18 @@ public class Tab3 extends Fragment {
                 int isMusic = Integer.parseInt(cursor
                         .getString(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)));
                 if (isMusic > 0) {
-                    musicID = cursor.getString(cursor
+                    musicID = cursor.getLong(cursor
                             .getColumnIndex(MediaStore.Audio.Media._ID));
 //                    displayName = cursor.getString(cursor
 //                            .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
 //                            .split("_")[0];
+                    contentUri = ContentUris.withAppendedId(collection, musicID);
                     titleName = cursor.getString(cursor
                                     .getColumnIndex(MediaStore.Audio.Media.TITLE));
                     artistName = cursor.getString(cursor
                             .getColumnIndex(MediaStore.Audio.Media.ARTIST));
 
-                    musicModalArrayList.add(new MusicModal(titleName, artistName));
+                    musicModalArrayList.add(new MusicModal(contentUri, titleName, artistName));
                 }
             }
         }
