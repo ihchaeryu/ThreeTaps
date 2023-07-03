@@ -40,7 +40,7 @@ class ContactRVAdapter extends RecyclerView.Adapter<ContactRVAdapter.ViewHolder>
         // getting data from array list in our modal.
         ContactsModal modal = contactsModalArrayList.get(position);
         // on below line we are setting data to our text view.
-        holder.contactTV.setText(modal.getUserName());
+//        holder.contactTV.setText(modal.getUserName());
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color
         int color = generator.getRandomColor();
@@ -87,13 +87,13 @@ class ContactRVAdapter extends RecyclerView.Adapter<ContactRVAdapter.ViewHolder>
         // on below line creating a variable
         // for our image view and text view.
         private ImageView contactIV;
-        private TextView contactTV;
+//        private TextView contactTV;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing our image view and text view.
             contactIV = itemView.findViewById(R.id.ContactItem_IV);
-            contactTV = itemView.findViewById(R.id.ContactItem_TV);
+//            contactTV = itemView.findViewById(R.id.ContactItem_TV);
         }
     }
 }

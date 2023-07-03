@@ -7,13 +7,6 @@
     android:orientation="vertical"
     tools:context=".Tab1">
 
-    <!-- TODO: Update blank fragment layout -->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:textSize="30sp"-->
-<!--        android:text="Fragment One" />-->
-
     <!--Recycler view for displaying list of contacts-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RVContacts"
