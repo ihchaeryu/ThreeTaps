@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class ContactDetailActivity extends AppCompatActivity {
 
-    // creating variables for our image view and text view and string. .
+    // creating variables for our image view and text view and string.
     private String contactName, contactNumber;
     private TextView contactTV, nameTV;
     private ImageView contactIV, callIV;
