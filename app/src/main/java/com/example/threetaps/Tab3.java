@@ -1,11 +1,14 @@
 package com.example.threetaps;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,9 +103,64 @@ public class Tab3 extends Fragment {
         musicRV.setAdapter(musicRVAdapter);
     }
 
+    @SuppressLint("Range")
     private void getMusic() {
         // this method is doing the work! get the music data from user's device
+        // some string variables
+        String musicID = "";
+        String titleName = "";
+        String artistName = "";
 
+        // on below line we are calling our content resolver for getting music
+        Uri collection;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        }
+        String[] projection = new String[] {
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.MIME_TYPE,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.IS_MUSIC
+        };
+        String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC";      // sort order sql
+        Cursor cursor = mainActivity.getContentResolver()
+                .query(collection,
+                        projection,
+                        null,
+                        null,
+                        sortOrder);
+
+        // on below line we are checking the count for our cursor.
+        if (cursor.getCount() > 0) {
+            // if the count is greater than 0 then we are running a loop to move our cursor to next.
+            while (cursor.moveToNext()) {
+                // An indicator of whether this is a music or not
+                int isMusic = Integer.parseInt(cursor
+                        .getString(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)));
+                if (isMusic > 0) {
+                    musicID = cursor.getString(cursor
+                            .getColumnIndex(MediaStore.Audio.Media._ID));
+//                    displayName = cursor.getString(cursor
+//                            .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
+//                            .split("_")[0];
+                    titleName = cursor.getString(cursor
+                                    .getColumnIndex(MediaStore.Audio.Media.TITLE));
+                    artistName = cursor.getString(cursor
+                            .getColumnIndex(MediaStore.Audio.Media.ARTIST));
+
+                    musicModalArrayList.add(new MusicModal(titleName, artistName));
+                }
+            }
+        }
+        // on below line we are closing our cursor.
+        cursor.close();
+        // on below line we are hiding our progress bar and notifying our adapter class.
+        loadingPB.setVisibility(View.GONE);
+        musicRVAdapter.notifyDataSetChanged();
     }
 
 }
