@@ -75,8 +75,6 @@ public class Tab1 extends Fragment {
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     // Handle the result here
-                    Intent data = result.getData();
-                    // Process the data from the result intent
                 }
             });
 

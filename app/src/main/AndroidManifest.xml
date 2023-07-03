@@ -6,7 +6,8 @@
         android:name="android.hardware.telephony"
         android:required="false" /> <!-- permissions to read contacts -->
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- permissions to make a call -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- permissions to read mp3 files -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThreeTaps"
         tools:targetApi="31">
+        <activity
+            android:name=".MusicDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ContactDetailActivity"
             android:exported="false" />
