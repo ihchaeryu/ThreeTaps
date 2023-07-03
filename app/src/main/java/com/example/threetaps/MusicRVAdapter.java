@@ -2,6 +2,7 @@ package com.example.threetaps;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,11 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MusicRVAdapter.ViewHolder holder, int position) {
         MusicModal modal = musicModalArrayList.get(position);
+        // setting data for text views
         holder.musicTV.setText(modal.getFileName());
+        holder.artistTV.setText(modal.getArtistName());
+        // setting data for image view
+        Bitmap thumbnail;
 
         // click listener to go to detail activity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +48,7 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
                 // on below line we are opening a new activity and passing data to it.
                 Intent i = new Intent(context, MusicDetailActivity.class);
                 i.putExtra("name", modal.getFileName());
+                i.putExtra("artist", modal.getArtistName());
                 // on below line we are starting a new activity,
                 context.startActivity(i);
             }
@@ -60,11 +66,13 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
         // variables
         private ImageView musicIV;
         private TextView musicTV;
+        private TextView artistTV;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             musicIV = itemView.findViewById(R.id.MusicItem_IV);
             musicTV = itemView.findViewById(R.id.MusicItem_TV);
+            artistTV = itemView.findViewById(R.id.MusicItem_ArtistTV);
         }
     }
 
