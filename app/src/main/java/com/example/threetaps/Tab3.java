@@ -109,6 +109,7 @@ public class Tab3 extends Fragment {
         // this method is doing the work! get the music data from user's device
         // some string variables
         Long musicID;
+        String displayName = "";
         String titleName = "";
         String artistName = "";
         Uri contentUri;
@@ -144,18 +145,23 @@ public class Tab3 extends Fragment {
                 int isMusic = Integer.parseInt(cursor
                         .getString(cursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC)));
                 if (isMusic > 0) {
-                    musicID = cursor.getLong(cursor
-                            .getColumnIndex(MediaStore.Audio.Media._ID));
+                    // check audio file format (only mp3 or wav)
+                    displayName = cursor.getString(cursor
+                            .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+                    if (displayName.endsWith(".mp3") || displayName.endsWith(".wav") || displayName.endsWith(".m4a")) {
+                        musicID = cursor.getLong(cursor
+                                .getColumnIndex(MediaStore.Audio.Media._ID));
 //                    displayName = cursor.getString(cursor
 //                            .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
 //                            .split("_")[0];
-                    contentUri = ContentUris.withAppendedId(collection, musicID);
-                    titleName = cursor.getString(cursor
-                                    .getColumnIndex(MediaStore.Audio.Media.TITLE));
-                    artistName = cursor.getString(cursor
-                            .getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                        contentUri = ContentUris.withAppendedId(collection, musicID);
+                        titleName = cursor.getString(cursor
+                                .getColumnIndex(MediaStore.Audio.Media.TITLE));
+                        artistName = cursor.getString(cursor
+                                .getColumnIndex(MediaStore.Audio.Media.ARTIST));
 
-                    musicModalArrayList.add(new MusicModal(contentUri, titleName, artistName));
+                        musicModalArrayList.add(new MusicModal(contentUri, titleName, artistName));
+                    }
                 }
             }
         }

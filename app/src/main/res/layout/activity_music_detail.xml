@@ -90,6 +90,7 @@
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
+            android:contentDescription="Play Pause Music"
             android:background="@drawable/ic_pause"
             app:tint="@color/dark_purple" />
 
@@ -100,6 +101,7 @@
             android:layout_toLeftOf="@+id/PlayBtn"
             android:layout_marginTop="15dp"
             android:layout_marginRight="8dp"
+            android:contentDescription="Previous Music"
             android:background="@drawable/ic_previous"
             app:tint="@color/dark_purple" />
 
@@ -110,19 +112,28 @@
             android:layout_toRightOf="@id/PlayBtn"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="8dp"
+            android:contentDescription="Next Music"
             android:background="@drawable/ic_next"
             app:tint="@color/purple" />
+
+<!--        <com.chibde.visualizer.BarVisualizer-->
+<!--            android:id = "@+id/BarVisualizer"-->
+<!--            android:layout_width = "match_parent"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_height = "120dp"/>-->
 
         <com.gauravk.audiovisualizer.visualizer.BarVisualizer
             xmlns:custom="http://schemas.android.com/apk/res-auto"
             android:id="@+id/Wave"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            custom:avDensity="0.8"
             custom:avType="fill"
-            custom:avColor="@color/purple"
-            custom:avSpeed="normal"/>
+            custom:avDensity="0.8"
+            custom:avColor="@color/dark_purple"
+            custom:avGravity="bottom"
+            custom:avSpeed="medium"/>
 
     </RelativeLayout>
 

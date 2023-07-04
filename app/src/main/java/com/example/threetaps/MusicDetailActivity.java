@@ -1,6 +1,7 @@
 package com.example.threetaps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -12,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 
 import org.w3c.dom.Text;
@@ -39,12 +39,13 @@ public class MusicDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_detail);
 
-        // on below line we are getting data which
-        // we passed in our adapter class with intent.
-        contentUri = Uri.parse(getIntent().getStringExtra("uri"));
-        musicTitle = getIntent().getStringExtra("title");
-        musicArtist = getIntent().getStringExtra("artist");
-        musicModalArrayList = (ArrayList) getIntent().getStringArrayListExtra("list");
+//        // on below line we are getting data which
+//        // we passed in our adapter class with intent.
+//        contentUri = Uri.parse(getIntent().getStringExtra("uri"));
+//        musicTitle = getIntent().getStringExtra("title");
+//        musicArtist = getIntent().getStringExtra("artist");
+//        musicModalArrayList = (ArrayList) getIntent().getStringArrayListExtra("list");
+        musicModalArrayList = getIntent().getParcelableArrayListExtra("list");
         position = getIntent().getIntExtra("pos", 0);
 
         // initializing our views.
@@ -63,30 +64,38 @@ public class MusicDetailActivity extends AppCompatActivity {
         seekBar = findViewById(R.id.SeekBar);
         barVisualizer = findViewById(R.id.Wave);
 
-        //Checking if any song playing or not
-        if (mediaPlayer != null) {
-            //we will start mediaPlayer if currently there is no songs in it
-            mediaPlayer.start();
-            mediaPlayer.release();
-        }
+//        // initialize visualizer
+//        barVisualizer.setVisibility(View.VISIBLE);
+//        barVisualizer.setColor(ContextCompat.getColor(this, R.color.dark_purple));
+//        // define a custom number of bars we want in the visualizer it is between (10 - 256).
+//        barVisualizer.setDensity(50);
 
-        // setting the text views
-        titleTV.setText(musicTitle);
-        artistTV.setText(musicArtist);
+        prepareMusicVariablesAndStart(position);
 
-        // passing the song path to the Media Player
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), contentUri);
-        mediaPlayer.start();
-
-        // preparing the time format for setting to textView
-        String endTime = createDuration(mediaPlayer.getDuration());
-
-        // set music ending time
-        songEndTV.setText(endTime);
-
-//        // show bar visualizer
-//        showVisualizer();
-
+//        //Checking if any song playing or not
+//        if (mediaPlayer != null) {
+//            //we will start mediaPlayer if currently there is no songs in it
+//            mediaPlayer.start();
+//            mediaPlayer.release();
+//        }
+//
+//        // setting the text views
+//        titleTV.setText(musicTitle);
+//        artistTV.setText(musicArtist);
+//
+//        // passing the song path to the Media Player
+//        mediaPlayer = MediaPlayer.create(getApplicationContext(), contentUri);
+//        mediaPlayer.start();
+//
+//        // preparing the time format for setting to textView
+//        String endTime = createDuration(mediaPlayer.getDuration());
+//
+//        // set music ending time
+//        songEndTV.setText(endTime);
+//
+////        // show bar visualizer
+////        showVisualizer();
+//
         // Thread to update the seekBar while playing song
         updateSeekBar = new Thread() {
             @Override
@@ -154,6 +163,21 @@ public class MusicDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // check if media is playing or not
+                if (mediaPlayer.isPlaying()) {
+                    // set to play icon
+                    playBtn.setBackgroundResource(R.drawable.ic_play);
+                    // pause
+                    mediaPlayer.pause();
+                } else {
+                    // set to pause icon
+                    playBtn.setBackgroundResource(R.drawable.ic_pause);
+                    // play
+                    mediaPlayer.start();
+
+
+                }
+
             }
         });
 
@@ -161,7 +185,13 @@ public class MusicDetailActivity extends AppCompatActivity {
         previousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // decrement position
+                position = (position - 1) % musicModalArrayList.size();
+                if (position < 0) {
+                    position = musicModalArrayList.size() - 1;
+                }
 
+                prepareMusicVariablesAndStart(position);
             }
         });
 
@@ -169,7 +199,10 @@ public class MusicDetailActivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // increment position
+                position = (position + 1) % musicModalArrayList.size();
 
+                prepareMusicVariablesAndStart(position);
             }
         });
 
@@ -183,9 +216,82 @@ public class MusicDetailActivity extends AppCompatActivity {
 
     }
 
+    public void prepareMusicVariablesAndStart(int position) {
+        MusicModal modal = musicModalArrayList.get(position);
+
+        // get uri, title, artist
+        contentUri = modal.getContentUri();
+        musicTitle = modal.getFileName();
+        musicArtist = modal.getArtistName();
+
+        //Checking if any song playing or not
+        if (mediaPlayer != null) {
+            //we will start mediaPlayer if currently there is no songs in it
+            mediaPlayer.start();
+            mediaPlayer.release();
+        }
+
+        // setting the text views
+        titleTV.setText(musicTitle);
+        artistTV.setText(musicArtist);
+
+        // passing the song path to the Media Player
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), contentUri);
+        mediaPlayer.start();
+
+        // preparing the time format for setting to textView
+        String endTime = createDuration(mediaPlayer.getDuration());
+
+        // set music ending time
+        songEndTV.setText(endTime);
+
+        // show visualizer
+        showVisualizer();
+
+//        // Thread to update the seekBar while playing song
+//        updateSeekBar = new Thread() {
+//            @Override
+//            public void run() {
+//
+//                int TotalDuration = mediaPlayer.getDuration();
+//                int CurrentPosition = 0;
+//
+//                while (CurrentPosition < TotalDuration) {
+//                    try {
+//                        sleep(500);
+//                        CurrentPosition = mediaPlayer.getCurrentPosition();
+//                        seekBar.setProgress(CurrentPosition);
+//
+//                    } catch (InterruptedException | IllegalStateException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//            }
+//        };
+//
+//        // setting the seekbar's max progress to the maximum duration of the media file
+//        seekBar.setMax(mediaPlayer.getDuration());
+//        updateSeekBar.start();
+
+    }
+
     public String createDuration(int duration) {
 
-        return "0:00";
+        String time = "";
+        int min = duration / 1000 / 60;
+        int sec = duration / 1000 % 60;
+
+        time = time + min + ":";
+
+        if (sec < 10) {
+
+            time += "0";
+
+        }
+        time += sec;
+
+        return time;
     }
 
     public void showVisualizer() {
@@ -194,6 +300,14 @@ public class MusicDetailActivity extends AppCompatActivity {
         if (audioSessionId != -1) {
             barVisualizer.setAudioSessionId(audioSessionId);
         }
+    }
+
+    //Releasing the BarVisualizer on Closing the Activity
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (barVisualizer != null)
+            barVisualizer.release();
     }
 
 }

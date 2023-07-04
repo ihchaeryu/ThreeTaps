@@ -53,9 +53,9 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
                 Intent i = new Intent(context, MusicDetailActivity.class);
                 i.putExtra("list", musicModalArrayList);
                 i.putExtra("pos", pos);
-                i.putExtra("uri", contentUri.toString());
-                i.putExtra("title", modal.getFileName());
-                i.putExtra("artist", modal.getArtistName());
+//                i.putExtra("uri", contentUri.toString());
+//                i.putExtra("title", modal.getFileName());
+//                i.putExtra("artist", modal.getArtistName());
                 // on below line we are starting a new activity,
                 context.startActivity(i);
             }
