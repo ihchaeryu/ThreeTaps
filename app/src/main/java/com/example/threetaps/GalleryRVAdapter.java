@@ -2,6 +2,7 @@ package com.example.threetaps;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 class GalleryRVAdapter extends RecyclerView.Adapter<GalleryRVAdapter.ViewHolder> {
-
     private Context context;
-    private ArrayList<GalleryModal> galleryModalArrayList;
-
-    public GalleryRVAdapter(Context context, ArrayList<GalleryModal> galleryModalArrayList) {
+    private ArrayList<String> galleryModalArrayList;
+    public GalleryRVAdapter(Context context, ArrayList<String> galleryModalArrayList) {
         this.context = context;
         this.galleryModalArrayList = galleryModalArrayList;
     }
@@ -34,20 +33,21 @@ class GalleryRVAdapter extends RecyclerView.Adapter<GalleryRVAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull GalleryRVAdapter.ViewHolder holder, int position) {
         holder.onBind(galleryModalArrayList.get(position));
-        GalleryModal modal = galleryModalArrayList.get(position);
+        String uriString = galleryModalArrayList.get(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // on below line we are opening a new activity and passing data to it.
                 Intent intent = new Intent(context, GalleryDetailActivity.class);
-                intent.putExtra("uri_key", modal.uri.toString()); // 문자열로 변환하여 추가
-//                intent.putExtra("int_key", position);
+                intent.putExtra("uri_key", uriString); // 문자열로 변환하여 추가
+                intent.putExtra("int_key", holder.getAdapterPosition());
+                intent.putExtra("stringArrayList_key", galleryModalArrayList);
                 context.startActivity(intent);
             }
         });
     }
 
-    public void setGalleryModalArrayList(ArrayList<GalleryModal> list){
+    public void setGalleryModalArrayList(ArrayList<String> list){
         this.galleryModalArrayList = list;
         notifyDataSetChanged();
     }
@@ -65,9 +65,9 @@ class GalleryRVAdapter extends RecyclerView.Adapter<GalleryRVAdapter.ViewHolder>
             galleryItem_IV = itemView.findViewById(R.id.GalleryItem_IV); // 여기서 id.gallery_item_iv는 이미지 뷰의 ID입니다.
         }
 
-        void onBind(@NonNull GalleryModal item){
+        void onBind(@NonNull String item){
             Glide.with(itemView)
-                    .load(item.uri)
+                    .load(Uri.parse(item))
                     .centerCrop()
                     .into(galleryItem_IV);
         }

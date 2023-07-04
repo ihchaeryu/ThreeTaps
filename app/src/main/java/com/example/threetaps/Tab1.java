@@ -1,8 +1,12 @@
 package com.example.threetaps;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -88,6 +92,14 @@ public class Tab1 extends Fragment {
         ArrayList<String> permissionsList = new ArrayList<>();
         permissionsList.add(android.Manifest.permission.READ_CONTACTS);
         permissionsList.add(android.Manifest.permission.CALL_PHONE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            // LOLLIPOP 이상 버전의 장치인 경우, 최신 API 사용
+            permissionsList.add(READ_MEDIA_IMAGES);
+
+        } else {
+            // LOLLIPOP 미만 버전의 장치인 경우, 대체 API 사용
+            permissionsList.add(READ_EXTERNAL_STORAGE);
+        }
 
         // below line is use to request
         // permission in the current activity.

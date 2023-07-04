@@ -2,16 +2,13 @@ package com.example.threetaps;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_MEDIA_IMAGES;
-import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +37,7 @@ public class Tab2 extends Fragment {
     // to use the context here
     private MainActivity mainActivity;
     // creating variables for our array list, recycler view progress bar and adapter.
-    private ArrayList<GalleryModal> galleryImageArrayList;
+    private ArrayList<String> galleryImageArrayList;
     private RecyclerView galleryRV;
     private GalleryRVAdapter galleryRVAdapter;
     private ProgressBar loadingPB;
@@ -55,13 +52,9 @@ public class Tab2 extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_tab2, container, false);
     }
 
@@ -69,7 +62,7 @@ public class Tab2 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // on below line we are initializing our variables.
-        galleryImageArrayList = new ArrayList<GalleryModal>();
+        galleryImageArrayList = new ArrayList<String>();
         galleryRVAdapter = new GalleryRVAdapter(mainActivity, galleryImageArrayList);
         galleryRV = view.findViewById(R.id.RVGalleries);
         galleryRV.setLayoutManager(new GridLayoutManager(mainActivity, 4));
@@ -77,26 +70,6 @@ public class Tab2 extends Fragment {
 
         loadingPB = view.findViewById(R.id.PBLoading);
         requestPermissions();
-
-//        for(int i=1;i<=60;i++){
-//            switch(i%5){
-//                case 0 :
-//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user0));
-//                    break;
-//                case 1 :
-//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user1));
-//                    break;
-//                case 2 :
-//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user2));
-//                    break;
-//                case 3 :
-//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user3));
-//                    break;
-//                case 4 :
-//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user4));
-//                    break;
-//            }
-//        }
     }
 
     private void requestPermissions() {
@@ -141,9 +114,6 @@ public class Tab2 extends Fragment {
     }
 
     public void  getAllPhotos(){
-
-        ArrayList<Uri> uriArr = new ArrayList<Uri>();
-
         String[] projection = new String[]{
                 MediaStore.Images.ImageColumns._ID,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, //the album it in
@@ -156,14 +126,12 @@ public class Tab2 extends Fragment {
                         null,
                         null,
                         MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
-
-
         if(cursor != null){
             while (cursor.moveToNext()){
                 int idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID);
                 long id = cursor.getLong(idColumn);
                 Uri uri =  Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,String.valueOf(id));
-                galleryImageArrayList.add(new GalleryModal(uri));
+                galleryImageArrayList.add(uri.toString());
             }
         }
         cursor.close();
