@@ -69,7 +69,8 @@ public class Tab2 extends Fragment {
         galleryRV.setAdapter(galleryRVAdapter);
 
         loadingPB = view.findViewById(R.id.PBLoading);
-        requestPermissions();
+//        requestPermissions(); don't need permissions again
+        getAllPhotos();
     }
 
     private void requestPermissions() {
@@ -114,6 +115,12 @@ public class Tab2 extends Fragment {
     }
 
     public void  getAllPhotos(){
+        Uri collection;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL);
+        } else {
+            collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        }
         String[] projection = new String[]{
                 MediaStore.Images.ImageColumns._ID,
                 MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, //the album it in
@@ -121,7 +128,7 @@ public class Tab2 extends Fragment {
                 MediaStore.Images.ImageColumns.MIME_TYPE
         };
         Cursor cursor = mainActivity.getContentResolver()
-                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                .query(collection,
                         projection,
                         null,
                         null,
