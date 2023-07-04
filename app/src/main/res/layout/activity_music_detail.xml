@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MusicDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/TitleTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:text="Title"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/ArtistTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/TitleTV"
+            android:textAlignment="center"
+            android:layout_margin="8dp"
+            android:text="Artist" />
+
+        <ImageView
+            android:id="@+id/ThumbnailIV"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:layout_below="@+id/ArtistTV"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="@color/black" />
+
+        <RelativeLayout
+            android:id="@+id/PlaybarRL"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@id/ThumbnailIV"
+            android:layout_margin="8dp">
+
+            <SeekBar
+                android:id="@+id/SeekBar"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:id="@+id/SongStartTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/SeekBar"
+                android:layout_centerInParent="true"
+                android:maxLines="1"
+                android:text="0:00"/>
+
+            <TextView
+                android:id="@+id/SongEndTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/SeekBar"
+                android:layout_centerInParent="true"
+                android:maxLines="1"
+                android:text="0:00" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/PlayBtn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:contentDescription="Play Pause Music"
+            android:background="@drawable/ic_pause"
+            app:tint="@color/dark_purple" />
+
+        <Button
+            android:id="@+id/PreviousBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@+id/PlayBtn"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="8dp"
+            android:contentDescription="Previous Music"
+            android:background="@drawable/ic_previous"
+            app:tint="@color/dark_purple" />
+
+        <Button
+            android:id="@+id/NextBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/PlayBtn"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="8dp"
+            android:contentDescription="Next Music"
+            android:background="@drawable/ic_next"
+            app:tint="@color/purple" />
+
+<!--        <com.chibde.visualizer.BarVisualizer-->
+<!--            android:id = "@+id/BarVisualizer"-->
+<!--            android:layout_width = "match_parent"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_height = "120dp"/>-->
+
+        <com.gauravk.audiovisualizer.visualizer.BarVisualizer
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/Wave"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            custom:avType="fill"
+            custom:avDensity="0.8"
+            custom:avColor="@color/dark_purple"
+            custom:avGravity="bottom"
+            custom:avSpeed="medium"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" /> <!-- permissions to read contacts -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- permissions to make a call -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/> <!-- up to android 12 (api31) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/> <!-- from android 13 (api33) -->
+    <!-- adding record audio  permission -->
+    <uses-permission android:name = "android.permission.RECORD_AUDIO"/>
+
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +26,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThreeTaps"
         tools:targetApi="31">
+        <activity
+            android:name=".MusicDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContactDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GalleryDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
