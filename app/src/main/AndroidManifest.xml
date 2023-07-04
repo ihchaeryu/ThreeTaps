@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- permissions to read mp3 files -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- up to android 12 (api31) -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/> <!-- from android 13 (api33) -->
+    <!-- adding record audio  permission -->
+    <uses-permission android:name = "android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
