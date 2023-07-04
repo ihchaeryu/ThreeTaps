@@ -1,11 +1,22 @@
 package com.example.threetaps;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +24,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Tab2 extends Fragment {
 
@@ -50,37 +70,103 @@ public class Tab2 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // on below line we are initializing our variables.
         galleryImageArrayList = new ArrayList<GalleryModal>();
-        galleryRVAdapter =new GalleryRVAdapter();
+        galleryRVAdapter = new GalleryRVAdapter(mainActivity, galleryImageArrayList);
         galleryRV = view.findViewById(R.id.RVGalleries);
         galleryRV.setLayoutManager(new GridLayoutManager(mainActivity, 4));
         galleryRV.setAdapter(galleryRVAdapter);
 
         loadingPB = view.findViewById(R.id.PBLoading);
+        requestPermissions();
 
-        for(int i=1;i<=60;i++){
-            switch(i%5){
-                case 0 :
-                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user0));
-                    break;
-                case 1 :
-                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user1));
-                    break;
-                case 2 :
-                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user2));
-                    break;
-                case 3 :
-                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user3));
-                    break;
-                case 4 :
-                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user4));
-                    break;
-            }
-        }
-
-
-        galleryRVAdapter.setGalleryModalArrayList(galleryImageArrayList);
-        loadingPB.setVisibility(View.GONE);
-        galleryRVAdapter.notifyDataSetChanged();
+//        for(int i=1;i<=60;i++){
+//            switch(i%5){
+//                case 0 :
+//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user0));
+//                    break;
+//                case 1 :
+//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user1));
+//                    break;
+//                case 2 :
+//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user2));
+//                    break;
+//                case 3 :
+//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user3));
+//                    break;
+//                case 4 :
+//                    galleryImageArrayList.add(new GalleryModal(R.drawable.id_user4));
+//                    break;
+//            }
+//        }
     }
 
+    private void requestPermissions() {
+        ArrayList<String> permissionsList = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            // LOLLIPOP 이상 버전의 장치인 경우, 최신 API 사용
+            permissionsList.add(READ_MEDIA_IMAGES);
+
+        } else {
+            // LOLLIPOP 미만 버전의 장치인 경우, 대체 API 사용
+            permissionsList.add(READ_EXTERNAL_STORAGE);
+        }
+        Dexter.withContext(mainActivity)
+                .withPermissions(permissionsList)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
+                            getAllPhotos();
+                            Toast.makeText(mainActivity, "All the permissions are granted..", Toast.LENGTH_SHORT).show();
+                        }
+                        if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
+                            showSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(mainActivity, "Error occurred! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread().check();
+    }
+
+    private void showSettingsDialog() {
+
+    }
+
+    public void  getAllPhotos(){
+
+        ArrayList<Uri> uriArr = new ArrayList<Uri>();
+
+        String[] projection = new String[]{
+                MediaStore.Images.ImageColumns._ID,
+                MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, //the album it in
+                MediaStore.Images.ImageColumns.DATE_TAKEN,
+                MediaStore.Images.ImageColumns.MIME_TYPE
+        };
+        Cursor cursor = mainActivity.getContentResolver()
+                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        projection,
+                        null,
+                        null,
+                        MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+
+
+        if(cursor != null){
+            while (cursor.moveToNext()){
+                int idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                long id = cursor.getLong(idColumn);
+                Uri uri =  Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,String.valueOf(id));
+                galleryImageArrayList.add(new GalleryModal(uri));
+            }
+        }
+        cursor.close();
+        loadingPB.setVisibility(View.GONE);
+    }
 }

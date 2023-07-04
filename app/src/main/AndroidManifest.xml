@@ -7,6 +7,11 @@
         android:required="false" /> <!-- permissions to read contacts -->
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- permissions to make a call -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
+
+
 
     <application
         android:allowBackup="true"
@@ -20,6 +25,9 @@
         tools:targetApi="31">
         <activity
             android:name=".ContactDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GalleryDetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

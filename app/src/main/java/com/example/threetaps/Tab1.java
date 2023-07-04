@@ -85,13 +85,17 @@ public class Tab1 extends Fragment {
     }
 
     private void requestPermissions() {
+        ArrayList<String> permissionsList = new ArrayList<>();
+        permissionsList.add(android.Manifest.permission.READ_CONTACTS);
+        permissionsList.add(android.Manifest.permission.CALL_PHONE);
+
         // below line is use to request
         // permission in the current activity.
         Dexter.withContext(mainActivity)
                 // below line is use to request the number of
                 // permissions which are required in our app.
-                .withPermissions(android.Manifest.permission.READ_CONTACTS,
-                        android.Manifest.permission.CALL_PHONE)
+                .withPermissions(permissionsList
+                )
                 // after adding permissions we are
                 // calling and with listener method.
                 .withListener(new MultiplePermissionsListener() {
