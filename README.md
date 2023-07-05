@@ -67,7 +67,30 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 ### Major features
 
+- 기기에 저장된 사진을 가져옵니다.
+- 두 손가락으로 확대, 축소 제스처를 취하면 한 줄에 보이는 사진의 개수를 조절할 수 있습니다.(2개~10개)
+- 사진을 클릭하면 전체화면으로 확대됩니다.
+  - 두 손가락으로 확대, 축소, 이동 등을 할 수 있습니다.
+  - 기본 화면에서 두 번 연속 누르면 1차 확대, 2차 확대, 전체화면으로 축소 이 3가지가 순환됩니다.
+  - Next, Previous 버튼을 누르면 다음, 이전 사진을 볼 수 있습니다.
+
 ### Technology
+- RecyclerView
+  
+  추가적으로 갤러리 형태로 보여주기 위해 LinearLayoutManager대신에 GridLayoutManager를 사용합니다.
+
+- 사진 데이터 : MediaStore.Images.Media
+
+  기기의 외부 저장소에서 사진 파일을 가져오기 위해 contentResolver을 이용하고, URI로 저장합니다.
+
+- [glide](https://github.com/bumptech/glide)
+  
+  사진 로드를 빠르게 하기 위해 `glide` library를 사용합니다.
+  
+- [PhotoView](https://github.com/Baseflow/PhotoView)
+
+  사진의 확대, 축소 등의 기능을 사용하기 위해 사진을 전체화면으로 보여주는 경우 `ImageView`가 아닌 `PhotoView`를 사용합니다.
+
 
 <br>
 
