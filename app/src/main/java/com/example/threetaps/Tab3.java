@@ -167,6 +167,7 @@ public class Tab3 extends Fragment {
                         albumId = cursor.getLong(cursor
                                 .getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
                         albumArtUri = ContentUris.withAppendedId(artUri, albumId);
+                        android.util.Log.i("TT", "albumid: "+albumId);
 
                         musicModalArrayList.add(new MusicModal(contentUri, albumArtUri, titleName, artistName));
                     }

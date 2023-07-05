@@ -35,7 +35,7 @@ public class GalleryDetailActivity extends AppCompatActivity {
             photoView.setImageURI(Uri.parse(uriString));
             photoView.setMaximumScale(10.0f);
             photoView.setMinimumScale(1.0f);
-            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
 
             btnPrevious = findViewById(R.id.btnPrevious);
             btnNext = findViewById(R.id.btnNext);
@@ -62,13 +62,13 @@ public class GalleryDetailActivity extends AppCompatActivity {
     private void showPreviousImage() {
         if(position > 0){
             photoView.setImageURI(Uri.parse(galleryModalArrayList.get(--position)));
-            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
         }
     }
     private void showNextImage() {
         if(position < galleryModalArrayList.size() - 1){
             photoView.setImageURI(Uri.parse(galleryModalArrayList.get(++position)));
-            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
         }
     }
 }

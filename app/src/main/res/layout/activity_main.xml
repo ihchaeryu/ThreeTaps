@@ -13,15 +13,15 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabItem
-            android:text="Contacts"
+            android:text="CONTACTS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.google.android.material.tabs.TabItem
-            android:text="Photos"
+            android:text="PHOTOS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.google.android.material.tabs.TabItem
-            android:text="Music"
+            android:text="MUSIC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
