@@ -9,6 +9,8 @@
         android:id="@+id/GalleryItem_IV"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/id_user1" />
+        android:src="@drawable/id_user1"
+        android:padding="1dp"
+        />
 
 </RelativeLayout>

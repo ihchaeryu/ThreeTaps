@@ -1,15 +1,15 @@
 package com.example.threetaps;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_MEDIA_IMAGES;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -21,16 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Tab2 extends Fragment {
 
@@ -40,7 +31,10 @@ public class Tab2 extends Fragment {
     private ArrayList<String> galleryImageArrayList;
     private RecyclerView galleryRV;
     private GalleryRVAdapter galleryRVAdapter;
+    private GridLayoutManager gridLayoutManager;
     private ProgressBar loadingPB;
+    private ScaleGestureDetector scaleGestureDetector;
+    private float scale = 1.0f;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -65,51 +59,57 @@ public class Tab2 extends Fragment {
         galleryImageArrayList = new ArrayList<String>();
         galleryRVAdapter = new GalleryRVAdapter(mainActivity, galleryImageArrayList);
         galleryRV = view.findViewById(R.id.RVGalleries);
-        galleryRV.setLayoutManager(new GridLayoutManager(mainActivity, 4));
+        gridLayoutManager = new GridLayoutManager(mainActivity, galleryRVAdapter.gridCount);
+        galleryRV.setLayoutManager(gridLayoutManager);
         galleryRV.setAdapter(galleryRVAdapter);
+        galleryRV.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                scaleGestureDetector.onTouchEvent(e);
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+            }
+        });
+
 
         loadingPB = view.findViewById(R.id.PBLoading);
 //        requestPermissions(); don't need permissions again
         getAllPhotos();
+        scaleGestureDetector = new ScaleGestureDetector(mainActivity, new ScaleGestureDetector.SimpleOnScaleGestureListener()  {
+            @Override
+            public void onScaleEnd(ScaleGestureDetector detector) {
+                scale *= detector.getScaleFactor();
+                if (scale > 1.0f) {
+                    if (galleryRVAdapter.gridCount > 2)
+                        galleryRVAdapter.gridCount--;
+                    updateGridLayout();
+                } else if (scale < 0.7f) {
+                    if (galleryRVAdapter.gridCount < 10)
+                        galleryRVAdapter.gridCount++;
+                    updateGridLayout();
+                }
+                scale = 1.0f;
+            }
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                scale *= detector.getScaleFactor();
+                return true;
+            }
+        });
+
     }
-
-    private void requestPermissions() {
-        ArrayList<String> permissionsList = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            // LOLLIPOP 이상 버전의 장치인 경우, 최신 API 사용
-            permissionsList.add(READ_MEDIA_IMAGES);
-
-        } else {
-            // LOLLIPOP 미만 버전의 장치인 경우, 대체 API 사용
-            permissionsList.add(READ_EXTERNAL_STORAGE);
-        }
-        Dexter.withContext(mainActivity)
-                .withPermissions(permissionsList)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
-                            getAllPhotos();
-                            Toast.makeText(mainActivity, "All the permissions are granted..", Toast.LENGTH_SHORT).show();
-                        }
-                        if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-//                            showSettingsDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-                        permissionToken.continuePermissionRequest();
-                    }
-                }).withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
-                        Toast.makeText(mainActivity, "Error occurred! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread().check();
+    private void updateGridLayout() {
+        gridLayoutManager.setSpanCount(galleryRVAdapter.gridCount);
+        galleryRV.setLayoutManager(gridLayoutManager);
+        galleryRV.setAdapter(galleryRVAdapter);
     }
-
     public void  getAllPhotos(){
         Uri collection;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

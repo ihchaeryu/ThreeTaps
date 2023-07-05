@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 class GalleryRVAdapter extends RecyclerView.Adapter<GalleryRVAdapter.ViewHolder> {
     private Context context;
+    public int gridCount = 3;
     private ArrayList<String> galleryModalArrayList;
     public GalleryRVAdapter(Context context, ArrayList<String> galleryModalArrayList) {
         this.context = context;
@@ -25,10 +27,17 @@ class GalleryRVAdapter extends RecyclerView.Adapter<GalleryRVAdapter.ViewHolder>
 
     @NonNull
     @Override
-    public GalleryRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_rv_item, parent, false);
+
+        int imageViewSize = parent.getWidth() / gridCount; // 이 값을 기준으로 이미지 크기를 조정합니다.
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(imageViewSize, imageViewSize);
+        ImageView imageView = view.findViewById(R.id.GalleryItem_IV);
+        imageView.setLayoutParams(layoutParams);
+
         return new ViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull GalleryRVAdapter.ViewHolder holder, int position) {
@@ -46,12 +55,10 @@ class GalleryRVAdapter extends RecyclerView.Adapter<GalleryRVAdapter.ViewHolder>
             }
         });
     }
-
     public void setGalleryModalArrayList(ArrayList<String> list){
         this.galleryModalArrayList = list;
         notifyDataSetChanged();
     }
-
     @Override
     public int getItemCount() {
         return galleryModalArrayList.size();
