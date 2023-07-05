@@ -10,7 +10,7 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 
 - [ThreeTaps](#threetaps)
-  - [General Screenshots](#general-screenshots)
+  - [General](#general)
   - [개발 환경](#개발-환경)
   - [Tab 1 : Contacts](#tab-1--contacts)
     - [Major features](#major-features)
@@ -24,13 +24,17 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 ---
 
-## General Screenshots
+## General
 
 <br>
 
 ![ThreeTaps_logo](imgs/3T.svg)
 
 ![ThreeTaps](imgs/3T_0.png)
+
+<br>
+
+> You can download ThreeTaps APK file from [here](https://drive.google.com/file/d/1svhkwRO4bPiiCSmtwPoeQuvexwCZivpx/view?usp=sharing).
 
 <br>
 
