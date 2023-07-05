@@ -143,7 +143,7 @@ public class Tab1 extends Fragment {
                         if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             // do your work now
                             getContacts();
-                            Toast.makeText(mainActivity, "All the permissions are granted.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mainActivity, "All permissions are granted.", Toast.LENGTH_SHORT).show();
                         }
                         // check for permanent denial of any permission
                         if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
