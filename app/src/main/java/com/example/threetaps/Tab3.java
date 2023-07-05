@@ -109,10 +109,13 @@ public class Tab3 extends Fragment {
         // this method is doing the work! get the music data from user's device
         // some string variables
         Long musicID;
+        Long albumId;
         String displayName = "";
         String titleName = "";
         String artistName = "";
         Uri contentUri;
+        Uri artUri = Uri.parse("content://media/external/audio/albumart");
+        Uri albumArtUri;
 
         // on below line we are calling our content resolver for getting music
         Uri collection;
@@ -127,7 +130,8 @@ public class Tab3 extends Fragment {
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.MIME_TYPE,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.IS_MUSIC
+                MediaStore.Audio.Media.IS_MUSIC,
+                MediaStore.Audio.Media.ALBUM_ID
         };
         String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";      // sort order sql
         Cursor cursor = mainActivity.getContentResolver()
@@ -148,7 +152,8 @@ public class Tab3 extends Fragment {
                     // check audio file format (only mp3 or wav)
                     displayName = cursor.getString(cursor
                             .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
-                    if (displayName.endsWith(".mp3") || displayName.endsWith(".wav") || displayName.endsWith(".m4a")) {
+                    if (displayName.endsWith(".mp3") || displayName.endsWith(".wav") || displayName.endsWith(".m4a"))
+                    {
                         musicID = cursor.getLong(cursor
                                 .getColumnIndex(MediaStore.Audio.Media._ID));
 //                    displayName = cursor.getString(cursor
@@ -159,8 +164,11 @@ public class Tab3 extends Fragment {
                                 .getColumnIndex(MediaStore.Audio.Media.TITLE));
                         artistName = cursor.getString(cursor
                                 .getColumnIndex(MediaStore.Audio.Media.ARTIST));
+                        albumId = cursor.getLong(cursor
+                                .getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+                        albumArtUri = ContentUris.withAppendedId(artUri, albumId);
 
-                        musicModalArrayList.add(new MusicModal(contentUri, titleName, artistName));
+                        musicModalArrayList.add(new MusicModal(contentUri, albumArtUri, titleName, artistName));
                     }
                 }
             }

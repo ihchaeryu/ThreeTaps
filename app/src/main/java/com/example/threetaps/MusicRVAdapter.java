@@ -3,6 +3,8 @@ package com.example.threetaps;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -39,11 +45,14 @@ class MusicRVAdapter extends RecyclerView.Adapter<MusicRVAdapter.ViewHolder> {
         MusicModal modal = musicModalArrayList.get(pos);
         // get uri
         Uri contentUri = modal.getContentUri();
+        Uri albumArtUri = modal.getAlbumArtUri();
         // setting data for text views
         holder.musicTV.setText(modal.getFileName());
         holder.artistTV.setText(modal.getArtistName());
-        // setting data for image view
-        Bitmap thumbnail;
+        // setting data for image view with Glide
+        Glide.with(context)
+                .load(albumArtUri)
+                .into(holder.musicIV);
 
         // click listener to go to detail activity
         holder.itemView.setOnClickListener(new View.OnClickListener() {

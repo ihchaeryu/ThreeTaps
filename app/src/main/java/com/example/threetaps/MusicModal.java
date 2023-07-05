@@ -10,12 +10,14 @@ public class MusicModal implements Parcelable {
 
     // variables
     private Uri contentUri;
+    private Uri albumArtUri;
     private String fileName;
     private String artistName;
 
     // constructor
-    public MusicModal(Uri contentUri, String fileName, String artistName) {
+    public MusicModal(Uri contentUri, Uri albumArtUri,String fileName, String artistName) {
         this.contentUri = contentUri;
+        this.albumArtUri = albumArtUri;
         this.fileName = fileName;
         this.artistName = artistName;
     }
@@ -25,6 +27,7 @@ public class MusicModal implements Parcelable {
     public Uri getContentUri() {
         return contentUri;
     }
+    public Uri getAlbumArtUri() { return albumArtUri; }
 
     public String getFileName() {
         return fileName;
@@ -40,6 +43,10 @@ public class MusicModal implements Parcelable {
         this.contentUri = contentUri;
     }
 
+    public void setAlbumArtUri(Uri albumArtUri) {
+        this.albumArtUri = albumArtUri;
+    }
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -51,6 +58,7 @@ public class MusicModal implements Parcelable {
     // Parcelable implementation
     protected MusicModal(Parcel in) {
         contentUri = in.readParcelable(Uri.class.getClassLoader());
+        albumArtUri = in.readParcelable(Uri.class.getClassLoader());
         fileName = in.readString();
         artistName = in.readString();
     }
@@ -70,6 +78,7 @@ public class MusicModal implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(contentUri, flags);
+        dest.writeParcelable(albumArtUri, flags);
         dest.writeString(fileName);
         dest.writeString(artistName);
     }

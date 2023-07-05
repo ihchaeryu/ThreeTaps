@@ -1,28 +1,38 @@
 package com.example.threetaps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MusicDetailActivity extends AppCompatActivity {
 
     // variables
     private Uri contentUri;
+    private Uri albumArtUri;
     private String musicTitle, musicArtist;
     private TextView titleTV, artistTV, songStartTV, songEndTV;
     private ImageView thumbnailIV;
@@ -51,7 +61,9 @@ public class MusicDetailActivity extends AppCompatActivity {
         // initializing our views.
         // bind each view with id
         titleTV = findViewById(R.id.TitleTV);
+        titleTV.setSelected(true);
         artistTV = findViewById(R.id.ArtistTV);
+        artistTV.setSelected(true);
         songStartTV = findViewById(R.id.SongStartTV);
         songEndTV = findViewById(R.id.SongEndTV);
         thumbnailIV = findViewById(R.id.ThumbnailIV);
@@ -221,6 +233,7 @@ public class MusicDetailActivity extends AppCompatActivity {
 
         // get uri, title, artist
         contentUri = modal.getContentUri();
+        albumArtUri = modal.getAlbumArtUri();
         musicTitle = modal.getFileName();
         musicArtist = modal.getArtistName();
 
@@ -234,6 +247,9 @@ public class MusicDetailActivity extends AppCompatActivity {
         // setting the text views
         titleTV.setText(musicTitle);
         artistTV.setText(musicArtist);
+
+        // setting the image view
+        thumbnailIV.setImageURI(albumArtUri);
 
         // passing the song path to the Media Player
         mediaPlayer = MediaPlayer.create(getApplicationContext(), contentUri);

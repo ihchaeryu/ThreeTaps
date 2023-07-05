@@ -19,7 +19,13 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="70dp"
             android:layout_marginBottom="10dp"
-            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:text="Title"
             android:textColor="@color/black"
             android:textSize="20dp" />
@@ -29,8 +35,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/TitleTV"
-            android:textAlignment="center"
             android:layout_margin="8dp"
+            android:gravity="center_horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             android:text="Artist" />
 
         <ImageView
@@ -40,8 +52,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
             android:layout_below="@+id/ArtistTV"
-            android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/black" />
+            android:src="@drawable/ic_launcher_foreground" />
 
         <RelativeLayout
             android:id="@+id/PlaybarRL"
