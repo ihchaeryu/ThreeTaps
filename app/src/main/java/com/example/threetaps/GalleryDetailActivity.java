@@ -32,7 +32,7 @@ public class GalleryDetailActivity extends AppCompatActivity implements View.OnT
             imageView = findViewById(R.id.detailImageView);
             imageView.setImageURI(Uri.parse(uriString));
             imageView.setOnTouchListener(this);
-            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
         } else {
             Log.e("GalleryDetailActivity", "Uri is null");
         }
@@ -58,7 +58,7 @@ public class GalleryDetailActivity extends AppCompatActivity implements View.OnT
                         // 좌측 20% 영역 터치 종료
                         if(position > 0){
                             imageView.setImageURI(Uri.parse(galleryModalArrayList.get(--position)));
-                            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }
@@ -74,7 +74,7 @@ public class GalleryDetailActivity extends AppCompatActivity implements View.OnT
                         // 우측 20% 영역 터치 종료
                         if(position < galleryModalArrayList.size() - 1){
                             imageView.setImageURI(Uri.parse(galleryModalArrayList.get(++position)));
-                            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(this,  String.valueOf(position), Toast.LENGTH_SHORT).show();
                         }
                         break;
                 }

@@ -93,7 +93,7 @@ public class Tab2 extends Fragment {
                             Toast.makeText(mainActivity, "All the permissions are granted..", Toast.LENGTH_SHORT).show();
                         }
                         if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
-                            showSettingsDialog();
+//                            showSettingsDialog();
                         }
                     }
 
@@ -108,10 +108,6 @@ public class Tab2 extends Fragment {
                     }
                 })
                 .onSameThread().check();
-    }
-
-    private void showSettingsDialog() {
-
     }
 
     public void  getAllPhotos(){
@@ -134,7 +130,7 @@ public class Tab2 extends Fragment {
                         null,
                         MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
         if(cursor != null){
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext() && galleryImageArrayList.size() < 1000){
                 int idColumn = cursor.getColumnIndex(MediaStore.Images.Media._ID);
                 long id = cursor.getLong(idColumn);
                 Uri uri =  Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,String.valueOf(id));
