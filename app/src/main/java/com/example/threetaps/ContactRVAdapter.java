@@ -75,13 +75,13 @@ class ContactRVAdapter extends RecyclerView.Adapter<ContactRVAdapter.ViewHolder>
         return contactsModalArrayList.size();
     }
 
-//    // below method is use for filtering data in our array list
-//    public void filterList(ArrayList<ContactsModal> filterlist) {
-//        // on below line we are passing filtered
-//        // array list in our original array list
-//        contactsModalArrayList = filterlist;
-//        notifyDataSetChanged();
-//    }
+    // below method is use for filtering data in our array list
+    public void setFilteredList(ArrayList<ContactsModal> filterlist) {
+        // on below line we are passing filtered
+        // array list in our original array list
+        contactsModalArrayList = filterlist;
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // on below line creating a variable

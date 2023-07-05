@@ -7,9 +7,20 @@
     android:orientation="vertical"
     tools:context=".Tab1">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/SearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_alignParentEnd="true"
+        app:iconifiedByDefault="false"
+        android:background="@drawable/searchview_bg"
+        app:queryHint="Search name." />
+
     <!--Recycler view for displaying list of contacts-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RVContacts"
+        android:layout_below="@+id/SearchView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"

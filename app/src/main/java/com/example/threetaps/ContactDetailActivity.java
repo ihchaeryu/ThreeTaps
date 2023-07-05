@@ -1,6 +1,7 @@
 package com.example.threetaps;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;

@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +34,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
@@ -56,6 +56,7 @@ public class Tab1 extends Fragment {
     private RecyclerView contactRV;
     private ContactRVAdapter contactRVAdapter;
     private ProgressBar loadingPB;
+    private SearchView searchView;
     // activity result launcher to solve deprecation
     private ActivityResultLauncher<Intent> launcher;
 
@@ -93,6 +94,23 @@ public class Tab1 extends Fragment {
         contactsModalArrayList = new ArrayList<>();
         contactRV = view.findViewById(R.id.RVContacts);
         loadingPB = view.findViewById(R.id.PBLoading);
+        searchView = view.findViewById(R.id.SearchView);
+
+        // setting for search view
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // not implementing this
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
 
         // calling method to prepare our recycler view.
         prepareContactRV();
@@ -100,6 +118,18 @@ public class Tab1 extends Fragment {
         // calling a method to request permissions.
         requestPermissions();
 
+    }
+
+    private void filterList(String text) {
+        ArrayList<ContactsModal> filteredList = new ArrayList<>();
+
+        for (ContactsModal contact : contactsModalArrayList) {
+            if (contact.getUserName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(contact);
+            }
+        }
+
+        contactRVAdapter.setFilteredList(filteredList);
     }
 
     private void prepareContactRV() {
