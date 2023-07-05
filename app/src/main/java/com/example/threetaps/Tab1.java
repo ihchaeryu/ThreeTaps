@@ -116,6 +116,7 @@ public class Tab1 extends Fragment {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(android.Manifest.permission.READ_CONTACTS);
         permissions.add(android.Manifest.permission.CALL_PHONE);
+        permissions.add(Manifest.permission.SEND_SMS);
         permissions.add(Manifest.permission.RECORD_AUDIO);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

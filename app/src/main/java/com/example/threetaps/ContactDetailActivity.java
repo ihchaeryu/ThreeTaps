@@ -16,7 +16,7 @@ public class ContactDetailActivity extends AppCompatActivity {
     // creating variables for our image view and text view and string.
     private String contactName, contactNumber;
     private TextView contactTV, nameTV;
-    private ImageView contactIV, callIV;
+    private ImageView contactIV, callIV, messageIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class ContactDetailActivity extends AppCompatActivity {
         contactIV = findViewById(R.id.IVAccount);
         contactTV = findViewById(R.id.TVPhone);
         callIV = findViewById(R.id.IVCall);
+        messageIV = findViewById(R.id.IVMessage);
         // set each text view
         nameTV.setText(contactName);
         contactTV.setText(contactNumber);
@@ -44,6 +45,13 @@ public class ContactDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // calling a method to make a call.
                 makeCall(contactNumber);
+            }
+        });
+        messageIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calling method to send a sms
+                sendMessage(contactNumber);
             }
         });
 
@@ -62,6 +70,14 @@ public class ContactDetailActivity extends AppCompatActivity {
         }
         // at last we are starting activity.
         startActivity(callIntent);
+    }
+
+    private void sendMessage(String contactNumber) {
+        // move to send a sms
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + contactNumber));
+//        intent.putExtra("sms_body", "Enter your message");
+//        intent.putExtra("sms_body", "");
+        startActivity(intent);
     }
 
 }

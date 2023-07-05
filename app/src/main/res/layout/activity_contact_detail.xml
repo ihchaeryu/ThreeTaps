@@ -66,19 +66,20 @@
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/IVCall"
                 android:layout_toRightOf="@id/IVCall"
-                android:text="Phone" />
-            <!-- android:layout_toStartOf="@id/idIVMessage" -->
+                android:layout_toStartOf="@id/IVMessage"
+                android:text="Phone"
+                android:textSize="17dp"/>
 
-<!--            &lt;!&ndash;image view for displaying message icon&ndash;&gt;-->
-<!--            <ImageView-->
-<!--                android:id="@+id/idIVMessage"-->
-<!--                android:layout_width="40dp"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:layout_margin="8dp"-->
-<!--                android:padding="4dp"-->
-<!--                android:src="@drawable/ic_account"-->
-<!--                app:tint="@color/purple_700" />-->
+            <!--image view for displaying message icon-->
+            <ImageView
+                android:id="@+id/IVMessage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_message"
+                app:tint="@color/dark_purple" />
 
         </RelativeLayout>
 

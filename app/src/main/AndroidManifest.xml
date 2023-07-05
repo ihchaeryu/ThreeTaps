@@ -7,6 +7,10 @@
         android:required="false" /> <!-- permissions to read contacts -->
     <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- permissions to make a call -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!--permissions to send sms-->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!--permissions to write sms-->
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/> <!-- up to android 12 (api31) -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/> <!-- from android 13 (api33) -->
