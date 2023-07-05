@@ -8,9 +8,9 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 ---
 
-<br>
 
 - [ThreeTaps](#threetaps)
+  - [General Screenshots](#general-screenshots)
   - [개발 환경](#개발-환경)
   - [Tab 1 : Contacts](#tab-1--contacts)
     - [Major features](#major-features)
@@ -22,9 +22,17 @@ Development period : 2023-06-29 ~ 2023-07-05
     - [Major features](#major-features-2)
     - [Technology](#technology-2)
 
+---
+
+## General Screenshots
+
 <br>
 
----
+![ThreeTaps_logo](imgs/3T.svg)
+
+![ThreeTaps](imgs/3T_0.png)
+
+<br>
 
 ## 개발 환경
 
@@ -38,7 +46,7 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 ### Major features
 
-![Tab1_screenshots](imgs/)
+![Tab1_screenshots](imgs/3T_1.png)
 
 - 기기에 저장된 연락처를 가져옵니다.
 - 이름에 특정 텍스트가 포함된 연락처를 검색할 수 있습니다.
@@ -63,7 +71,7 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 ## Tab 2 : Photos
 
-![Tab2_screenshots](imgs/)
+![Tab2_screenshots](imgs/3T_2.jpeg)
 
 ### Major features
 
@@ -75,6 +83,7 @@ Development period : 2023-06-29 ~ 2023-07-05
   - Next, Previous 버튼을 누르면 다음, 이전 사진을 볼 수 있습니다.
 
 ### Technology
+
 - RecyclerView
   
   추가적으로 갤러리 형태로 보여주기 위해 LinearLayoutManager대신에 GridLayoutManager를 사용합니다.
@@ -96,7 +105,7 @@ Development period : 2023-06-29 ~ 2023-07-05
 
 ## Tab 3 : Music
 
-![Tab3_screenshots](imgs/)
+![Tab3_screenshots](imgs/3T_3.png)
 
 ### Major features
 
@@ -115,3 +124,7 @@ Development period : 2023-06-29 ~ 2023-07-05
 - 음악 재생 : MediaPlayer
   
   Android MediaPlayer을 이용합니다. 재생하고자 하는 음악의 uri를 인자로 받아 새로운 MediaPlayer instance를 생성합니다. 함수를 통해 instance를 정지하거나 재생하는 등의 조작을 할 수 있습니다. 다른 음악을 재생할 때는 현재 resource를 release 한 뒤에 다시 uri를 받아 instance를 생성합니다.
+
+- bar visualizer
+  
+  audio bar visualizer 을 사용하기 위해 [Audio Visualizer](https://github.com/gauravk95/audio-visualizer-android) library 를 사용합니다.
